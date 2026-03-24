@@ -1,30 +1,45 @@
-# Compiled object files
-*.o
-*.obj
-
-# Compiled binaries
+# Compiled output files
 *.exe
 *.out
 *.app
 
-# Build directories
-/build/
-/bin/
-/Debug/
-/Release/
+# Object files
+*.o
+*.obj
+*.a
+*.lib
 
-# Visual Studio specific
+# Debug / Release folders (Code::Blocks / general builds)
+bin/
+build/
+Debug/
+Release/
+obj/
+
+# Code::Blocks project files (optional — keep if you share project setup)
+*.depend
+*.layout
+
+# Visual Studio (if ever opened there)
 *.vcxproj*
 *.sln
 *.user
 *.pdb
 
-# Code::Blocks specific
-*.cbp
-*.depend
-*.layout
-
-# Temporary files
+# Logs and temp files
 *.log
 *.tmp
+
+# Editor backups
+*~
 *.swp
+*.bak
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# If you later add dependencies manually
+vcpkg_installed/
+libs/
+external/
