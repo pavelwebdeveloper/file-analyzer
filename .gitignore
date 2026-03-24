@@ -1,0 +1,30 @@
+# Compiled object files
+*.o
+*.obj
+
+# Compiled binaries
+*.exe
+*.out
+*.app
+
+# Build directories
+/build/
+/bin/
+/Debug/
+/Release/
+
+# Visual Studio specific
+*.vcxproj*
+*.sln
+*.user
+*.pdb
+
+# Code::Blocks specific
+*.cbp
+*.depend
+*.layout
+
+# Temporary files
+*.log
+*.tmp
+*.swp
