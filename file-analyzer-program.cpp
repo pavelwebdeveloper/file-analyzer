@@ -1,22 +1,89 @@
 #include <iostream>
 #include "TextFileAnalyzer.h"
 #include <filesystem>
+#include <regex>
 
 using namespace std;
 
+string checkTxtFileNameUserInput(){
+
+    string userInput;
+
+    cin >> userInput;
+
+    regex txtFileNamePattern(".*\\.txt$");
+
+    while(!regex_match(userInput, txtFileNamePattern)){
+        cout << "Invalid txt file name. Please, try again: ";
+        cin.clear(); // Reset input errors
+        cin.ignore(10000, '\n'); // Remove bad input
+        cin >> userInput;
+      }
+
+    cout << "You entered: " << userInput << "\n";
+
+    return userInput;
+}
+
+int checkIntegerUserInput(){
+
+    int userInput;
+
+    /*while(true){
+        cin >> userInput;
+
+        //cout << "Inside checkIntegerUserInput function and the value of userInput is: " << userInput << "\n";
+
+        if(cin >> userInput){
+            break;
+        }
+        cout << "Invalid number. Please, try again: ";
+        cin.clear(); // Reset input errors
+        cin.ignore(10000, '\n'); // Remove bad input
+        cin >> userInput;
+      }*/
+
+    while(!(cin >> userInput)){
+        cout << "Invalid number. Please, try again: ";
+        cin.clear(); // Reset input errors
+        cin.ignore(10000, '\n'); // Remove bad input
+        cin >> userInput;
+      }
+
+    cout << "You entered: " << userInput << "\n";
+
+    return userInput;
+}
+
 
 int main() {
-  //cout << std::filesystem::current_path() << endl;
+      // code to find out the current working directory of the program
+      //cout << std::filesystem::current_path() << endl;
 
-  TextFileAnalyzer textFileAnalyzer;
+    // get from a user the name of a file to analyze
+    cout << "Please, enter the name of a file to analyze: ";
+    string userInputFileToAnalyze = checkTxtFileNameUserInput();
 
-  string text_read_from_file = textFileAnalyzer.readFile("textfile.txt");
+    // get from a user the name of a file to save results
+    cout << "Please, enter the name of a file to save results (e.g. analysis_results.txt): ";
+    string userInputFileToSaveResults = checkTxtFileNameUserInput();
 
-  cout << text_read_from_file;
+    // get from a user the amount of the most frequent words to display separately
+    cout << "Please, enter the amount of the most frequent words to save: ";
+    int mostFrequentWordsAmount = checkIntegerUserInput();
 
-  textFileAnalyzer.analyzeText(text_read_from_file);
+    cout << "About to create TextFileAnalyzer class: ";
 
-  textFileAnalyzer.saveResultsToTxtFile("analysisresults.txt");
+    TextFileAnalyzer textFileAnalyzer;
+
+    string text_to_analyze = textFileAnalyzer.readFile(userInputFileToAnalyze);
+
+    cout << text_to_analyze;
+
+    textFileAnalyzer.analyzeText(text_to_analyze);
+
+    textFileAnalyzer.saveResultsToTxtFile(userInputFileToSaveResults, mostFrequentWordsAmount);
+
 
   return 0;
 }

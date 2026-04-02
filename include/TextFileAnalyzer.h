@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -12,7 +14,7 @@ class TextFileAnalyzer
     public:
         string nameOfFile;
         map<string,int> wordCount;
-        int totalWordCount;
+        int totalWordCount = 0;
         TextFileAnalyzer();
         virtual ~TextFileAnalyzer();
 
@@ -46,20 +48,27 @@ class TextFileAnalyzer
             return textFromFile;
         }
 
-        void saveResultsToTxtFile(string fileName){
+
+
+
+
+        void saveResultsToTxtFile(string fileName, int amountOfMostFrequentWords){
                 // Create and open a text file
                 ofstream FileToSaveAnalysisData(fileName);
 
-                FileToSaveAnalysisData << "================================================================\n\n";
-                FileToSaveAnalysisData << "Results of analysis for " << nameOfFile << "\n\n";
-                FileToSaveAnalysisData << "================================================================\n\n";
-                FileToSaveAnalysisData << "\n\n" << "Total word count" << " : " << totalWordCount << "\n\n";
-                FileToSaveAnalysisData << "----------------------------------------------------------------\n\n";
+                cout << "Inside saveResultsToTxtFile function\n";
 
-                for(auto item : wordCount){
-                    FileToSaveAnalysisData << item.first << " : " << item.second << "\n";
-                }
+                printHeaderForFileContents(fileName, FileToSaveAnalysisData);
+
+                cout << "Inside saveResultsToTxtFile function after calling printHeaderForFileContents function\n";
+
+                saveMostFrequentWordsCounts(amountOfMostFrequentWords, FileToSaveAnalysisData);
+
+                saveDistinctWordCount(FileToSaveAnalysisData);
+
             }
+
+
 
         void analyzeText(string text){
 
@@ -92,11 +101,52 @@ class TextFileAnalyzer
                     cout << item.first << " : " << item.second << "\n";
                 }
 
+            cout << "----------------------------------------------------------------\n";
+
         }
+
+
 
     protected:
 
     private:
+
+        void printHeaderForFileContents(string fileName, ofstream& FileToSaveAnalysisData){
+
+                FileToSaveAnalysisData << "================================================================\n\n";
+                FileToSaveAnalysisData << "Results of analysis for " << nameOfFile << "\n\n";
+                FileToSaveAnalysisData << "================================================================\n";
+                FileToSaveAnalysisData << "\n\n" << "Total word count" << " : " << totalWordCount << "\n\n";
+                FileToSaveAnalysisData << "----------------------------------------------------------------\n";
+
+            }
+
+        void saveMostFrequentWordsCounts(int amountOfMostFrequentWords, ofstream& FileToSaveAnalysisData){
+            vector<pair<string,int>> vec(wordCount.begin(), wordCount.end());
+
+            sort(vec.begin(), vec.end(),
+                     [](const auto& a, const auto& b){
+                        return a.second > b.second; // descending
+                     }
+                 );
+
+            FileToSaveAnalysisData << "\n\n" << "The most frequent words count" << " : " << "\n\n";
+
+            for(int i = 0; i < amountOfMostFrequentWords && vec.size(); i++){
+                FileToSaveAnalysisData << vec[i].first << " : " << vec[i].second << endl;
+            }
+
+            FileToSaveAnalysisData << "----------------------------------------------------------------\n";
+        }
+
+        void saveDistinctWordCount(ofstream& FileToSaveAnalysisData){
+            FileToSaveAnalysisData << "\n\n" << "Distinct word count: " << "\n\n";
+                FileToSaveAnalysisData << "----------------------------------------------------------------\n";
+
+                for(auto item : wordCount){
+                    FileToSaveAnalysisData << item.first << " : " << item.second << "\n";
+                }
+        }
 };
 
 #endif // FILEANALYZER_H
