@@ -14,12 +14,10 @@ class TextFileAnalyzer
 {
     public:
         string nameOfFile;
-        map<string,int> wordCount;
         int totalWordCount = 0;
         TextFileAnalyzer();
         virtual ~TextFileAnalyzer();
-        unordered_set<string> wordsToExclude = {"e.g.", "the", "The", "an", "a", "and", "as", "in", "with", "of", "by",
-        "for", "or", "at", "also", "eg", "is", "it", "its", "on", "over", "that", "then", "these", "to", "was", "which"};
+
 
         string readFile(string fileName){
 
@@ -89,14 +87,7 @@ class TextFileAnalyzer
 
             }
 
-            cout << "\n\n" << "     Total word count" << " : " << totalWordCount << "\n\n";
-
-                for(auto item : wordCount){
-                    cout << item.first << " : " << item.second << "\n";
-                }
-
-            cout << "----------------------------------------------------------------\n";
-
+            cout << "\n\n" << "   Total word count" << " : " << totalWordCount << "\n\n";
         }
 
 
@@ -105,12 +96,16 @@ class TextFileAnalyzer
 
     private:
 
+        map<string,int> wordCount;
+        unordered_set<string> wordsToExclude = {"e.g.", "the", "The", "an", "a", "and", "as", "in", "with", "of", "by",
+        "for", "or", "at", "also", "eg", "is", "it", "its", "on", "over", "that", "then", "these", "to", "was", "which"};
+
         void printHeaderForFileContents(string fileName, ofstream& FileToSaveAnalysisData){
 
                 FileToSaveAnalysisData << "================================================================\n\n";
                 FileToSaveAnalysisData << "     Results of analysis for " << nameOfFile << "\n\n";
                 FileToSaveAnalysisData << "================================================================\n";
-                FileToSaveAnalysisData << "\n\n" << "       Total word count" << " : " << totalWordCount << "\n\n";
+                FileToSaveAnalysisData << "\n\n" << "     Total word count" << " : " << totalWordCount << "\n\n";
                 FileToSaveAnalysisData << "----------------------------------------------------------------\n";
 
             }
@@ -124,7 +119,7 @@ class TextFileAnalyzer
                      }
                  );
 
-            FileToSaveAnalysisData << "\n\n" << "   " << amountOfMostFrequentWords << " most frequent words count: " << "\n\n";
+            FileToSaveAnalysisData << "\n\n" << "    " << amountOfMostFrequentWords << " most frequent words count: " << "\n\n";
 
             for(int i = 0; i < amountOfMostFrequentWords && vec.size(); i++){
                 FileToSaveAnalysisData << "     " << vec[i].first << " : " << vec[i].second << endl;
@@ -134,7 +129,7 @@ class TextFileAnalyzer
         }
 
         void saveDistinctWordCount(ofstream& FileToSaveAnalysisData){
-            FileToSaveAnalysisData << "\n\n" << "   Distinct words count: " << "\n\n";
+            FileToSaveAnalysisData << "\n\n" << "    All distinct words count: " << "\n\n";
                 FileToSaveAnalysisData << "----------------------------------------------------------------\n";
 
                 for(auto item : wordCount){
