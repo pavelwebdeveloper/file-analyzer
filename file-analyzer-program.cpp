@@ -11,7 +11,7 @@ string checkTxtFileNameUserInput(){
 
     cin >> userInput;
 
-    regex txtFileNamePattern(".*\\.txt$");
+    regex txtFileNamePattern(".+\\.txt$");
 
     while(!regex_match(userInput, txtFileNamePattern)){
         cout << "Invalid txt file name. Please, try again: ";
@@ -29,25 +29,10 @@ int checkIntegerUserInput(){
 
     int userInput;
 
-    /*while(true){
-        cin >> userInput;
-
-        //cout << "Inside checkIntegerUserInput function and the value of userInput is: " << userInput << "\n";
-
-        if(cin >> userInput){
-            break;
-        }
-        cout << "Invalid number. Please, try again: ";
-        cin.clear(); // Reset input errors
-        cin.ignore(10000, '\n'); // Remove bad input
-        cin >> userInput;
-      }*/
-
     while(!(cin >> userInput)){
         cout << "Invalid number. Please, try again: ";
         cin.clear(); // Reset input errors
         cin.ignore(10000, '\n'); // Remove bad input
-        cin >> userInput;
       }
 
     cout << "You entered: " << userInput << "\n";
@@ -72,18 +57,17 @@ int main() {
     cout << "Please, enter the amount of the most frequent words to save: ";
     int mostFrequentWordsAmount = checkIntegerUserInput();
 
-    cout << "About to create TextFileAnalyzer class: ";
-
     TextFileAnalyzer textFileAnalyzer;
 
     string text_to_analyze = textFileAnalyzer.readFile(userInputFileToAnalyze);
 
     cout << text_to_analyze;
 
-    textFileAnalyzer.analyzeText(text_to_analyze);
+    if(text_to_analyze.length() > 0){
+        textFileAnalyzer.analyzeText(text_to_analyze);
 
-    textFileAnalyzer.saveResultsToTxtFile(userInputFileToSaveResults, mostFrequentWordsAmount);
-
-
-  return 0;
+        textFileAnalyzer.saveResultsToTxtFile(userInputFileToSaveResults, mostFrequentWordsAmount);
+    } else{
+        return 0;
+    }
 }
