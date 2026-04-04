@@ -10,6 +10,7 @@ string checkTxtFileNameUserInput(){
 
     string userInput;
 
+    // Getting input from a user and storing it in the userInput variable
     cin >> userInput;
 
     regex txtFileNamePattern(".+\\.txt$");
@@ -19,7 +20,7 @@ string checkTxtFileNameUserInput(){
         cout << "Invalid txt file name. Please, try again: ";
         cin.clear(); // Reset input errors
         cin.ignore(10000, '\n'); // Remove bad input
-        cin >> userInput;
+        cin >> userInput; // Getting input from a user and storing it in the userInput variable
       }
 
     cout << "You entered: " << userInput << "\n";
@@ -64,17 +65,20 @@ int main() {
     // creation of an object from TextFileAnalyzer class
     TextFileAnalyzer textFileAnalyzer;
 
-
+    // storing text from a file in the text_to_analyze variable
     string text_to_analyze = textFileAnalyzer.readFile(userInputFileToAnalyze);
 
+    // analyze the text only if it is not empty
     if(text_to_analyze.length() > 0){
 
+        // calling the object's method for analyzing the text
         textFileAnalyzer.analyzeText(text_to_analyze);
 
         // get from a user the amount of the most frequent words to display separately
         cout << "Please, enter the amount of the most frequent words to display separately from other words: ";
         int mostFrequentWordsAmount = checkIntegerUserInput(textFileAnalyzer.totalWordCount);
 
+        // calling the object's method for saving the results of the analysis
         textFileAnalyzer.saveResultsToTxtFile(userInputFileToSaveResults, mostFrequentWordsAmount);
 
         cout << "The results have successfully been saved to " << userInputFileToSaveResults << "\n\n";
